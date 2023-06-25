@@ -34,8 +34,6 @@ The signature recognition architecture follows a pipeline-based approach, involv
 
 To run the signature recognition architecture, the following requirements should be fulfilled:
 
-- Python (version 3.6 or higher)
-- Python libraries specified in the `requirements.txt` file
 - Sufficient computing resources (CPU/GPU) for training and inference
 
 ## Installation
