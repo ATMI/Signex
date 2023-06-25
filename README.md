@@ -1,84 +1,150 @@
-# Signature Recognition Architecture
+# Signex
 
-This repository contains an architecture for signature recognition, designed to identify and authenticate handwritten signatures. The system utilizes machine learning techniques to analyze signature patterns and make predictions based on trained models.
+Signex is open source signature & stamp recognition tool, that uses YOLO-based model and
+modified [Darknet](https://github.com/ATMI/darknet) framework.
 
 ## Table of Contents
 
-- [Introduction](#introduction)
-- [Architecture](#architecture)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+* [Introduction](#introduction)
+* [Architecture](#architecture)
+* [Requirements](#requirements)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Contributing](#contributing)
+* [License](#license)
 
 ## Introduction
 
-Signature recognition is a valuable tool in various domains, including banking, legal, and security applications. This architecture provides a framework for building a signature recognition system using machine learning algorithms.
-
-The architecture consists of several components, including data preprocessing, feature extraction, model training, and signature verification. By following the steps outlined in this documentation, you can set up and deploy your own signature recognition system.
-
-## Architecture
-
-The signature recognition architecture follows a pipeline-based approach, involving the following steps:
-
-1. Data Preprocessing: This step involves preparing the signature data for further analysis. It may include tasks such as image resizing, noise removal, and normalization.
-
-2. Feature Extraction: In this step, relevant features are extracted from the preprocessed signature images. Common techniques include extracting statistical features, texture-based features, or using deep learning-based approaches.
-
-3. Model Training: The extracted features are used to train a machine learning model, which learns the patterns and characteristics of genuine signatures. This step involves selecting an appropriate algorithm, training the model on labeled data, and optimizing its parameters.
-
-4. Signature Verification: Once the model is trained, it can be used to verify the authenticity of new signature samples. The system compares the extracted features of the input signature with those learned during training to make a prediction.
+Signature & stamp recognition is a valuable tool in various domains, including banking, legal, and security
+applications. This architecture provides a framework for building a signature recognition system using machine learning
+algorithms.
 
 ## Requirements
 
 To run the signature recognition architecture, the following requirements should be fulfilled:
 
-- Sufficient computing resources (CPU/GPU) for training and inference
+* Linux machine, this project was not tested on Windows & Mac
+* Sufficient computing resources (CPU/GPU) for training and inference
 
 ## Installation
-
-To install the required dependencies, follow these steps:
 
 1. Clone the repository:
 
 ```shell
-git clone https://gitlab.pg.innopolis.university/sofwarus-progectus/signature-recognition.git
+git clone --recurse-submodules git@gitlab.pg.innopolis.university:sofwarus-progectus/signature-recognition.git
 ```
 
-2. Change into the project directory:
+2. Optionally you can install:
 
-```shell
-cd signature-recognition
+* OpenCV - version 4.x
+* CUDA & cuDNN
+
+## Build
+
+Signex uses Darknet to run & train neural networks. By default, Darknet is built with OpenCV and CUDA support. To
+disable them, modify the `darknet` target
+in the [CMake file](CMakeLists.txt):
+
+```cmake
+add_custom_target(
+		darknet
+		COMMAND cd ${DARKNET_PATH} && make OPENCV=1 GPU=1
+)
 ```
 
-3. Install the necessary Python packages:
+Available options (set 1 to enable, otherwise - 0):
 
-```shell
-pip install -r requirements.txt
+* `DEBUG` - build debug version of darknet
+* `OPENCV` - use OpenCV to load & transform images
+* `GPU` - use CUDA to run & train neural network, set your GPU `ARCH` in the [Darknet's Makefile](darknet/Makefile)
+* `CUDNN` - unsafe, not tested
+* `OPENMP` - unsafe, not tested
+
+Build `start-train` target to build all required dependencies and start the training process.
+
+There is a possibility, that you will need to specify custom include and lib paths in the
+[Darknet's Makefile](darknet/Makefile) to build it:
+
+* OpenCV:
+
+```makefile
+ifeq ($(OPENCV), 1) 
+COMMON+= -DOPENCV
+CFLAGS+= -DOPENCV
+LDFLAGS+= `pkg-config --libs opencv4` -lstdc++ # Add OpenCV lib path here
+COMMON+= -I/usr/include/opencv4 `pkg-config --cflags opencv4` # Add OpenCV include path here
+endif
+```
+
+* CUDA
+
+```makefile
+ifeq ($(GPU), 1)
+NVCC_FLAGS+= -ccbin g++-11
+COMMON+= -DGPU -I/usr/local/cuda/include/ -I/opt/cuda/targets/x86_64-linux/include # Add CUDA include path here
+CFLAGS+= -DGPU
+LDFLAGS+= -L/usr/local/cuda/lib64 -L/opt/cuda/targets/x86_64-linux/lib -lcuda -lcudart -lcublas -lcurand # Add CUDA lib path here
+endif
 ```
 
 ## Usage
 
-To use the signature recognition architecture, follow the steps below:
+### Training
 
-1. Prepare your signature dataset and ensure it is appropriately labeled.
+To train your custom model:
 
-2. Preprocess the signature images, applying necessary transformations such as resizing, noise removal, or normalization. Implement this step according to your specific requirements and dataset characteristics.
+1. Download/prepare dataset
+2. Put all images in the [dataset/images](dataset/images) folder, currently all training images should be `.jpg`
+3. Put labels in the [dataset/labels](dataset/labels) folder, each label file name should correspond to the image file
+   name.
+   Label format is the same as Darknet's label format
+4. Add required class names to [cfg/classes.lst](cfg/classes.lst), separated by newline:
 
-3. Extract relevant features from the preprocessed images. Choose appropriate feature extraction techniques based on the nature of the dataset and the characteristics you want the model to learn.
+```
+Signature
+Stamp
+```
 
-4. Train the signature recognition model using the extracted features and the labeled dataset. Select a suitable machine learning algorithm and adjust the model's hyperparameters for optimal performance.
+5. Change classes number in [cfg/data.cfg](cfg/data.cfg):
 
-5. Once the model is trained, you can perform signature verification on new samples. Provide the input signature image, preprocess it using the same transformations as during training, extract features, and feed them to the trained model for prediction.
+```ini
+classes = 2
+...
+```
+
+6. Modify [cfg/net.cfg](cfg/net.cfg):
+	1. Set classes number in each [yolo] layer:
+   ```ini
+   [yolo]
+   ...
+   classes = 2
+   ...
+   ```
+	2. Set filters number in each [convolutional] layer before each [yolo] layer. Number of filters can be calculated
+	   using the formula `filters = (classes + 5) * 3`:
+   ```ini
+   [convolutional]
+   ...
+   filters = 21
+   ...
+   ```
+
+### Testing
+
+CMake target is under development, but you can use the following command:
+
+```shell
+darknet detector test data.cfg net.cfg weights_file image_file -thresh detection_threshold
+```
 
 ## Contributing
 
-We welcome contributions to enhance the signature recognition architecture. If you would like to contribute, please follow these steps:
+We welcome contributions to enhance the signature recognition architecture. If you would like to contribute, please
+follow these steps:
 
 1. Fork the repository on GitLab.
 
-2. Create a new branch with a descriptive name for your feature or bug fix.
+2. Create a new branch with the name `feature/feature_name` for your feature or bug fix.
 
 3. Implement your changes or additions.
 
@@ -88,4 +154,4 @@ We welcome contributions to enhance the signature recognition architecture. If y
 
 ## License
 
-The signature recognition architecture is licensed under the [MIT License]. Feel free to use, modify, and distribute the codebase as per the terms of the license.
+Signex is licensed under the [WTFPL](LICENSE.fuck).
