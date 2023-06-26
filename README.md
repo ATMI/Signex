@@ -112,13 +112,13 @@ classes = 2
 ```
 
 6. Modify [cfg/net.cfg](cfg/net.cfg):
-    1. Set classes number in each [yolo] layer:
+	1. Set classes number in each [yolo] layer:
    ```ini
    [yolo]
    classes = 2
    ```
-    2. Set filters number in each [convolutional] layer before each [yolo] layer. Number of filters can be calculated
-       using the formula `filters = (classes + 5) * 3`:
+	2. Set filters number in each [convolutional] layer before each [yolo] layer. Number of filters can be calculated
+	   using the formula `filters = (classes + 5) * 3`:
    ```ini
    [convolutional]
    filters = 21
