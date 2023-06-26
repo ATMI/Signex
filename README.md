@@ -112,13 +112,13 @@ classes = 2
 ```
 
 6. Modify [cfg/net.cfg](cfg/net.cfg):
-	1. Set classes number in each [yolo] layer:
+    1. Set classes number in each [yolo] layer:
    ```ini
    [yolo]
    classes = 2
    ```
-	2. Set filters number in each [convolutional] layer before each [yolo] layer. Number of filters can be calculated
-	   using the formula `filters = (classes + 5) * 3`:
+    2. Set filters number in each [convolutional] layer before each [yolo] layer. Number of filters can be calculated
+       using the formula `filters = (classes + 5) * 3`:
    ```ini
    [convolutional]
    filters = 21
@@ -126,11 +126,8 @@ classes = 2
 
 ### Testing
 
-CMake target is under development, but you can use the following command:
-
-```shell
-darknet detector test data.cfg net.cfg weights_file image_file -thresh detection_threshold
-```
+You can use CMake `test` target to run model test. It will automatically select random file
+from [dataset/test](dataset/test).
 
 ## Contributing
 
