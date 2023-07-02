@@ -1,0 +1,9 @@
+train: dataset/train.lst
+val: dataset/test.lst # todo: rename
+# test: dataset/real_test.lst
+
+# number of classes
+nc: 2
+
+# class names
+names: [ 'signature', 'stamp' ]
