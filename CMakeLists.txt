@@ -2,15 +2,6 @@ cmake_minimum_required(VERSION 3.10)
 project(signex)
 
 set(CMAKE_CXX_STANDARD 17)
-
-link_directories(darknet)
-add_executable(signex main.cpp)
-
-target_link_libraries(signex darknet)
-include_directories(darknet/include)
-
-add_executable(shufflels shufflels.cpp)
-
 set(DARKNET_DIR ${CMAKE_CURRENT_LIST_DIR}/darknet)
 set(DATASET_DIR ${CMAKE_CURRENT_LIST_DIR}/dataset)
 set(MODELS_DIR ${CMAKE_CURRENT_LIST_DIR}/models)
@@ -20,6 +11,7 @@ set(DATA_CFG ${CFG_DIR}/data.cfg)
 set(NET_CFG ${CFG_DIR}/net.cfg)
 
 set(TEST_CFG ${CFG_DIR}/test.cfg)
+set(TEST_THRESH 0.3)
 set(TEST_WEIGHTS ${MODELS_DIR}/net.backup)
 
 file(GLOB TEST_IMAGES ${DATASET_DIR}/test/*)
@@ -35,6 +27,14 @@ if (${TEST_IMAGES_COUNT} GREATER 0)
 else ()
 	message("No test images found")
 endif ()
+
+link_directories(darknet)
+add_executable(signex main.cpp)
+
+target_link_libraries(signex darknet)
+include_directories(darknet/include)
+
+add_executable(shufflels shufflels.cpp)
 
 add_custom_target(
 		darknet
@@ -62,5 +62,5 @@ add_custom_target(
 add_custom_target(
 		test
 		DEPENDS darknet make-lists
-		COMMAND cd ${DARKNET_DIR} && ./darknet detector test ${DATA_CFG} ${TEST_CFG} ${TEST_WEIGHTS} ${TEST_IMAGE}
+		COMMAND cd ${DARKNET_DIR} && ./darknet detector test ${DATA_CFG} ${TEST_CFG} ${TEST_WEIGHTS} ${TEST_IMAGE} -thresh ${TEST_THRESH}
 )
