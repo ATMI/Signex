@@ -1,0 +1,5 @@
+[pylint]
+disable = missing-docstring, invalid-name, unused-import
+
+[MASTER]
+max-line-length = 100
