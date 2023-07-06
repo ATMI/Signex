@@ -5,7 +5,7 @@ stages:
   - reports
   - other-tools
 
-linting_job:
+linting_with_pylint:
   stage: linting
   script:
     - echo "Running linting..."
@@ -17,11 +17,18 @@ building_job:
     - echo "Building a testable snapshot..."
      # Add commands or scripts for building a testable snapshot
 
-testing_job:
+testing_set_1:
   stage: testing
   script:
     - echo "Running tests..."
      # Add commands or scripts for running tests
+
+testing_set_2:
+  stage: testing
+  script:
+    - echo "Running tests..."
+     # Add commands or scripts for running tests
+
 
 linting_reports_job:
   stage: reports
