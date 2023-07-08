@@ -13,10 +13,10 @@ def detect(environ):
 	if not content_type or not content_type.startswith("multipart/form-data"):
 		return HTTPStatus.BAD_REQUEST, "Invalid input format", [("Content-Type", "text/plain")]
 
-	input_stream = environ["wsgi.input"]
+	input_stream = environ.get("wsgi.input")
 	form = cgi.FieldStorage(fp=input_stream, environ=environ)
 
-	image_field = form["image"]
+	image_field = form.getvalue("image")
 	if image_field is None:
 		return HTTPStatus.BAD_REQUEST, "No valid 'image' to process was provided", [("Content-Type", "text/plain")]
 
@@ -40,8 +40,6 @@ handlers = {
 
 
 def app(environ, start_response):
-	print(environ)
-
 	status: HTTPStatus = HTTPStatus.INTERNAL_SERVER_ERROR
 	response = "Some inner error occurred, please contact the developers to report the issue\n"
 	headers = [("Content-Type", "text/plain")]
