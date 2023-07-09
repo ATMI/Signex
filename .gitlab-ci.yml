@@ -1,0 +1,21 @@
+stages:
+  - build
+  - test
+
+variables:
+  PYTHON_VERSION: "3.9"
+
+before_script:
+  - python --version
+
+build:
+  stage: build
+  script:
+    - git submodule update --init --recursive
+    - pip install -r yolov7/requirements.txt
+
+test:
+  stage: test
+  script:
+    - python tests.py
+
