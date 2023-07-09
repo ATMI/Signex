@@ -3,6 +3,7 @@ image: python:3.11.3
 stages:
   - build
   - test
+  - report
 
 variables:
   PYTHON_VERSION: "3.11.3"
@@ -13,9 +14,9 @@ before_script:
 build:
   stage: build
   script:
+    - git submodule update --init --recursive
     - python -m venv ./venv
     - . ./venv/bin/activate
-    - git submodule update --init --recursive
     - pip install -r yolov7/requirements.txt
     - deactivate
 
@@ -25,3 +26,14 @@ test:
     - . ./venv/bin/activate
     - python tests.py
     - deactivate
+
+report:
+  stage: report
+  script:
+    - . ./venv/bin/activate
+    - pip install pytest-cov
+    - pytest --cov=tests --cov-report=html
+    - deactivate
+  artifacts:
+    paths:
+      - ./tests/htmlcov/
