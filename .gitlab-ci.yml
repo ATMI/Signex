@@ -13,13 +13,8 @@ before_script:
   - apt-get install libgl1 -y
   - python -m venv ./venv
   - . ./venv/bin/activate
-
-build:
-  stage: build
-  script:
-    - git submodule update --init --recursive
-    - pip install -r yolov7/requirements.txt
-    - pip freeze > requirements.txt
+  - git submodule update --init --recursive
+  - pip install -r yolov7/requirements.txt
 
 test:
   stage: test
