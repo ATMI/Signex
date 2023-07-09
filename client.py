@@ -7,7 +7,7 @@ URL = "..."
 arguments = sys.argv
 
 if len(arguments) != 2:
-	print("Invalid arguments number, usage: python client.py document_path")
+	print("Invalid arguments number, usage:\npython client.py document_path")
 else:
 	image_path = arguments[1]
 	files = {"image": open(image_path, "rb")}
@@ -21,7 +21,5 @@ else:
 			print("Successfully processed image, saving result to 'result.jpg'")
 			with open("result.jpg", "wb") as f:
 				f.write(response.content)
-		case 400, 500:
-			print(response.content)
 		case _:
-			print(f"Unknown response code: {status_code}")
+			print(response.content)
