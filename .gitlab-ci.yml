@@ -30,6 +30,8 @@ test:
 report:
   stage: report
   script:
+    - ls
+    - ls venv/
     - . ./venv/bin/activate
     - pip install pytest-cov
     - pytest --cov=tests --cov-report=html
