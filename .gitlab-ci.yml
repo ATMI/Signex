@@ -37,3 +37,7 @@ report:
   artifacts:
     paths:
       - ./tests/htmlcov/
+
+cache:
+  paths:
+    - venv/
