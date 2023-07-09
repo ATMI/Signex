@@ -63,7 +63,7 @@ class Response:
 
 	@classmethod
 	def invalid_content_type(cls, provided, expected) -> 'Response':
-		return cls.bad_request(f"Invalid content type:\nProvided: '{provided}'\nExpected: '{expected}\n")
+		return cls.bad_request(f"Invalid content type:\nProvided: '{provided}'\nExpected: '{expected}'\n")
 
 	@classmethod
 	def not_implemented(cls) -> 'Response':
@@ -115,7 +115,11 @@ class Api:
 		if not input_stream:
 			return Response.internal_server_error(NO_CGI_INPUT)
 
-		form = cgi.FieldStorage(fp=input_stream, environ=environ)
+		try:
+			form = cgi.FieldStorage(fp=input_stream, environ=environ)
+		except Exception as e:
+			self.log(e)
+			return Response.bad_request("Invalid input stream field storage\n")
 
 		image_data = form.getvalue("image")
 		if image_data is None:
