@@ -21,10 +21,15 @@ build:
     - . ./venv/bin/activate
     - pip install -r yolov7/requirements.txt
     - deactivate
+  artifacts:
+    paths:
+      - venv/
 
 test:
   stage: test
   script:
+    - apt-get update
+    - apt-get install libgl1 -y
     - . ./venv/bin/activate
     - python tests.py
     - deactivate
@@ -41,7 +46,3 @@ report:
   artifacts:
     paths:
       - ./tests/htmlcov/
-
-cache:
-  paths:
-    - venv/
