@@ -9,40 +9,29 @@ variables:
   PYTHON_VERSION: "3.11.3"
 
 before_script:
-  - python --version
+  - apt-get update
+  - apt-get install libgl1 -y
+  - python -m venv ./venv
+  - . ./venv/bin/activate
 
 build:
   stage: build
   script:
-    - apt-get update
-    - apt-get install libgl1 -y
     - git submodule update --init --recursive
-    - python -m venv ./venv
-    - . ./venv/bin/activate
     - pip install -r yolov7/requirements.txt
-    - deactivate
-  artifacts:
-    paths:
-      - venv/
+    - pip freeze > requirements.txt
 
 test:
   stage: test
   script:
-    - apt-get update
-    - apt-get install libgl1 -y
-    - . ./venv/bin/activate
+    - pip install -r requirements.txt
     - python tests.py
-    - deactivate
 
 report:
   stage: report
   script:
-    - ls
-    - ls venv/
-    - . ./venv/bin/activate
     - pip install pytest-cov
     - pytest --cov=tests --cov-report=html
-    - deactivate
   artifacts:
     paths:
       - ./tests/htmlcov/
