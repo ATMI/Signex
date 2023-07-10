@@ -20,6 +20,7 @@ before_script:
 test:
   stage: test
   script:
+    - pip install pytest
     - export PYTHONPATH=./:./yolov7:$PYTHONPATH
     - python -m pytest --junitxml=reports/test-report.xml
   artifacts:
