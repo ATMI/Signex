@@ -22,7 +22,7 @@ test:
   script:
     - pip install pytest
     - export PYTHONPATH=./:./yolov7:$PYTHONPATH
-    - python -m pytest --junitxml=reports/test-report.xml
+    - python -m pytest --junitxml=reports/test-report.xml tests.py
   artifacts:
     reports:
       junit: reports/test-report.xml
