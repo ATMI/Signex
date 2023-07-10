@@ -17,21 +17,11 @@ before_script:
   - pip install -r yolov7/requirements.txt
   - pip install -r requirements.txt
 
-build:
-  stage: build
-  script:
-    - python --version
-
 test:
   stage: test
   script:
-    - python tests.py
-
-report:
-  stage: report
-  script:
-    - pip install pytest-cov
-    - pytest --cov=tests --cov-report=html
+    - export PYTHONPATH=./:./yolov7:$PYTHONPATH
+    - python -m pytest --junitxml=reports/test-report.xml
   artifacts:
-    paths:
-      - ./tests/htmlcov/
+    reports:
+      junit: reports/test-report.xml

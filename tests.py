@@ -3,7 +3,6 @@ from unittest.mock import MagicMock, patch
 
 from api import Api
 
-
 class ApiTests(unittest.TestCase):
 	def setUp(self):
 		self.detector = MagicMock()
