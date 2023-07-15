@@ -29,6 +29,7 @@ UNKNOWN = -1
 NO_CGI_INPUT = -2
 CANT_READ_CGI_FIELD = -3
 CANT_ENCODE_IMAGE = -4
+DETECT_FAILURE = -5
 
 
 class Response:
@@ -132,7 +133,11 @@ class Api:
 			self.log(e)
 			return Response.bad_request("Can not decode provided image\n")
 
-		result = self.detector.detect(image_mat).result()
+		(ok, result) = self.detector.detect(image_mat).result()
+		if not ok:
+			self.log(result)
+			return Response.internal_server_error(DETECT_FAILURE)
+
 		(ok, result_data) = cv2.imencode(".jpg", result)
 
 		if not ok:
