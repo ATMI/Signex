@@ -1,6 +1,6 @@
 from http.client import BAD_REQUEST, OK, INTERNAL_SERVER_ERROR, NOT_IMPLEMENTED
 
-from api.values import CONTENT_PLAIN_TEXT
+from .values import CONTENT_PLAIN_TEXT
 
 
 class Response:
