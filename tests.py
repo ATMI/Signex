@@ -1,7 +1,9 @@
+import io
 import unittest
 from unittest.mock import MagicMock, patch
 
-from api import Api
+from api.main import Api
+
 
 class ApiTests(unittest.TestCase):
 	def setUp(self):
@@ -36,14 +38,14 @@ class ApiTests(unittest.TestCase):
 	def test_detect_invalid_content_type(self):
 		# Purpose: Test handling a request with an invalid content type
 		# Expected behavior: The API should respond with a status code 400 and an error message indicating the invalid content type
-		environ = {"REQUEST_METHOD": "POST", "DOCUMENT_URI": "/detect", "CONTENT_TYPE": "application/json"}
+		environ = {"REQUEST_METHOD": "POST", "DOCUMENT_URI": "/find_signatures", "CONTENT_TYPE": "application/json"}
 		response = self.api.handle_request(environ)
 		self.assertEqual(response.status, 400)
 		self.assertEqual(response.body,
 						 "Invalid content type:\nProvided: 'application/json'\nExpected: 'multipart/form-data'\n")
 
-	@patch("api.np.frombuffer")
-	@patch("api.cv2.imdecode")
+	@patch("api.main.np.frombuffer")
+	@patch("api.main.cv2.imdecode")
 	def test_detect_no_image_field(self, mock_imdecode, mock_frombuffer):
 		# Purpose: Test handling a request with no image field in the input stream
 		# Expected behavior: The API should respond with a status code 400 and an error message indicating the missing image field
@@ -52,7 +54,7 @@ class ApiTests(unittest.TestCase):
 
 		environ = {
 			"REQUEST_METHOD": "POST",
-			"DOCUMENT_URI": "/detect",
+			"DOCUMENT_URI": "/trace_signatures",
 			"CONTENT_TYPE": "multipart/form-data",
 			"wsgi.input": MagicMock()
 		}

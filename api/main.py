@@ -58,12 +58,12 @@ class Api:
 
 			input_stream = environ.get(CGI_INPUT)
 			if not input_stream:
-				return Result.failure(Response.internal_server_error(NO_CGI_INPUT))
+				return Result.failure(Response.bad_request(NO_CGI_INPUT))
 
 			return Result.success(cgi.FieldStorage(fp=input_stream, environ=environ))
 		except Exception as e:
 			self.log(e)
-		return Result.failure(Response.internal_server_error(GET_FIELD_STORAGE_FAILURE))
+		return Result.failure(Response.bad_request("Invalid input stream field storage\n"))
 
 	def detect(self, environ) -> Response:
 		try:
