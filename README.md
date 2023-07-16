@@ -1,4 +1,5 @@
 # Signex
+![image](images/Logo.png)
 
 Signex is open source signature & stamp recognition tool, that uses YOLOv7-based model and
 modified [Pytorch](https://github.com/ATMI/yolov7) framework for signature detection and ... for signature embeddings. 
