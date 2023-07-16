@@ -77,51 +77,6 @@ To run the signature recognition architecture, the following requirements should
 
 ## Build
 
-Signex uses Darknet to run & train neural networks. By default, Darknet is built with OpenCV and CUDA support. To
-disable them, modify the `darknet` target
-in the [CMake file](CMakeLists.txt):
-
-```cmake
-add_custom_target(
-		darknet
-		COMMAND cd ${DARKNET_PATH} && make OPENCV=1 GPU=1
-)
-```
-
-Available options (set 1 to enable, otherwise - 0):
-
-* `DEBUG` - build debug version of darknet
-* `OPENCV` - use OpenCV to load & transform images
-* `GPU` - use CUDA to run & train neural network, set your GPU `ARCH` in the [Darknet's Makefile](darknet/Makefile)
-* `CUDNN` - unsafe, not tested
-* `OPENMP` - unsafe, not tested
-
-Build `start-train` target to build all required dependencies and start the training process.
-
-There is a possibility, that you will need to specify custom include and lib paths in the
-[Darknet's Makefile](darknet/Makefile) to build it:
-
-* OpenCV:
-
-```makefile
-ifeq ($(OPENCV), 1) 
-COMMON+= -DOPENCV
-CFLAGS+= -DOPENCV
-LDFLAGS+= `pkg-config --libs opencv4` -lstdc++ # Add OpenCV lib path here
-COMMON+= -I/usr/include/opencv4 `pkg-config --cflags opencv4` # Add OpenCV include path here
-endif
-```
-
-* CUDA
-
-```makefile
-ifeq ($(GPU), 1)
-NVCC_FLAGS+= -ccbin g++-11
-COMMON+= -DGPU -I/usr/local/cuda/include/ -I/opt/cuda/targets/x86_64-linux/include # Add CUDA include path here
-CFLAGS+= -DGPU
-LDFLAGS+= -L/usr/local/cuda/lib64 -L/opt/cuda/targets/x86_64-linux/lib -lcuda -lcudart -lcublas -lcurand # Add CUDA lib path here
-endif
-```
 
 ## Usage
 
