@@ -36,7 +36,7 @@ class ApiTests(unittest.TestCase):
 	def test_detect_invalid_content_type(self):
 		# Purpose: Test handling a request with an invalid content type
 		# Expected behavior: The API should respond with a status code 400 and an error message indicating the invalid content type
-		environ = {"REQUEST_METHOD": "POST", "DOCUMENT_URI": "/detect_and_draw", "CONTENT_TYPE": "application/json"}
+		environ = {"REQUEST_METHOD": "POST", "DOCUMENT_URI": "/detect", "CONTENT_TYPE": "application/json"}
 		response = self.api.handle_request(environ)
 		self.assertEqual(response.status, 400)
 		self.assertEqual(response.body,
