@@ -144,6 +144,7 @@ To train your custom model:
    ```
 
 5. Modify [data/data.yaml](data/data.yaml):
+
 	1. Set classes number:
       ```shell
          nc: 2
