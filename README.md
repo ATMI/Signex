@@ -46,16 +46,15 @@ To run the signature recognition architecture, the following requirements should
       git clone —depth 1 --recurse-submodules https://gitlab.pg.innopolis.university/sofwarus-progectus/signature-recognition.git
    ```
 
-2. Navigate to project and set up a virtual environment 
+2. Navigate to project
 
    ```shell
       cd signature-recognition
    ```
+3. Set up and activate virtual environment
    ```shell
       python -m venv venv
    ```
-3. Activate venv
-
    **Linux:**
    ```shell
       . venv/bin/activate
@@ -68,7 +67,6 @@ To run the signature recognition architecture, the following requirements should
    ```shell
       pip install -r requirements.txt
    ```  
-
 
 5. Optionally you can install:
 
@@ -131,11 +129,9 @@ To train your custom model:
 
 1. Download/prepare dataset with label tools. We reccomend to use [YOLO Label](https://github.com/developer0hye/Yolo_Label)
 
-2. Put all images in the [dataset/images](dataset/images) folder, currently all training images should be `.jpg`
+2. Put all images and labels in the [dataset/train](dataset/train) folder, currently all training images should be `.jpg`. Each label file name should correspond to the image file. Label format is the same as Darknet label format
 
-3. Put labels in the [dataset/labels](dataset/labels) folder, each label file name should correspond to the image file
-   name.
-   Label format is the same as Darknet's label format
+3. Put images and labels in the [dataset/test](dataset/test) for testing the trained model.
 
 4. Change classes number in [cfg/net.yaml](cfg/net.yaml):
    ```shell
