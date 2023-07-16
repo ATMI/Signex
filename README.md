@@ -5,6 +5,8 @@
 Signex is open source signature & stamp recognition tool, that uses YOLOv7-based model for signature detection and ...
 for signature embeddings.
 
+[Here](https://app.swaggerhub.com/apis/TIMOFEYBRAYKO/SWP/1.0.0#/Comparison%20Neural%20Network/post_compare) you can find our Swagger API description. 
+
 # Table of Contents
 
 * [Introduction](#introduction)
@@ -181,7 +183,7 @@ To train your custom model:
 
 ### Comparison Model
 
-## Contributing
+# Contributing
 
 We welcome contributions to enhance the signature recognition architecture. If you would like to contribute, please
 follow these steps:
@@ -196,6 +198,28 @@ follow these steps:
 
 5. Submit a merge request, clearly describing the changes you have made.
 
-## License
+# Future work
+
+Signex is still under development and the following tasks have to be done:
+
+1. Training of the detection model. As for now, we are getting relatively good performance in separate-standing
+   and low-intersecting signature recognition, but sometimes model predicts broken bounding boxes, for example:
+
+<div style="display: flex; justify-content: center;">
+    <div style="flex: 50%; padding: 10px;">
+        <img src="images/Failure_Example_1.jpg" alt="Image 3" style="max-width: 100%; height: auto;">
+    </div>
+</div>
+
+2. Development of in-stamp signatures extraction model. Our model is also trained to detect stamps for their potential further
+   processing. We can try to find signatures inside stamps to improve signature detection accuracy, ac current accuracy may seem relative low:
+
+<div style="display: flex; justify-content: center;">
+    <div style="flex: 50%; padding: 10px;">
+        <img src="images/In_Stamp_Example_1.jpg" alt="Image 4" style="max-width: 100%; height: auto;">
+    </div>
+</div>
+
+# License
 
 Signex is licensed under the [WTFPL](LICENSE.fuck).
