@@ -17,7 +17,7 @@ from yolov7.models.experimental import attempt_load
 from yolov7.utils.datasets import letterbox
 from yolov7.utils.general import check_img_size, non_max_suppression, scale_coords
 
-sys.path.append('yolov7')
+sys.path.append('../yolov7')
 sys.modules["models"] = models
 sys.modules["models.yolo"] = yolo
 
