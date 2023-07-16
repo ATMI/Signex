@@ -139,7 +139,7 @@ To train your custom model:
 
 4. Change classes number in [cfg/net.yaml](cfg/net.yaml):
 
-   ```bash
+   ```shell
       nc: 2
    ```
 
@@ -149,22 +149,22 @@ To train your custom model:
          nc: 2
       ```
    2. Add required class names
-      ```ini
+      ```shell
          names: ['first class', 'second class']
       ```
    3. Set the directory to dataset list for training
-      ```ini
+      ```shell
          train: some/path/to/list.lst
       ```
    4. Set the directory to list for testing trained model
-      ```ini
+      ```shell
          val: path/to/test/list.lst
       ```
    6. Optionally you can modify hyperparameters in [hyp/hyp.net.yaml](hyp/hyp.net.yaml)
 
 	3. Set filters number in each [convolutional] layer before each [yolo] layer. Number of filters can be calculated
 	   using the formula `filters = (classes + 5) * 3`:
-   ```ini
+   ```shell
    [convolutional]
    filters = 21
    ```
