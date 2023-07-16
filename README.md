@@ -1,6 +1,6 @@
 # Signex
 
-Signex is open source signature & stamp recognition tool, that uses YOLO-based model and
+Signex is open source signature & stamp recognition tool, that uses YOLOv7-based model and
 modified [Pytorch](https://github.com/ATMI/yolov7) framework.
 
 ## Table of Contents
@@ -22,7 +22,9 @@ algorithms.
 
 ## Structure
 
-
+   * [cfg/](cfg/) - Folder with neural network configurations 
+   * [data/](data/) - Folder with dataset configurations 
+   * [hyp/](hyp/) - Folder with hyperparameters for training neural network, such as learning rate, weight decay, etc.
 
 
 ## Requirements
@@ -127,9 +129,9 @@ endif
 
 To train your custom model:
 
-1. Download/prepare dataset with label tools. We reccomend to use [YOLO Label](https://github.com/developer0hye/Yolo_Label)
+1. Download/prepare dataset with label tools. We reccomend to use [YOLO Label](https://github.com/developer0hye/Yolo_Label).
 
-2. Put all images and labels in the [dataset/train](dataset/train) folder, currently all training images should be `.jpg`. Each label file name should correspond to the image file. Label format is the same as Darknet label format
+2. Put all images and labels in the [dataset/train](dataset/train) folder, currently all training images should be `.jpg`. Each label file name should correspond to the image file. Label format is the same as Darknet label format.
 
 3. Put images and labels in the [dataset/test](dataset/test) for testing the trained model.
 
@@ -163,23 +165,23 @@ filters = 21
 
    - `--device <GPU_NUM>`: Specify the device (GPU) to be used for training. Exaple: --device 0
 
-   - `--batch-size <B_SIZE>`: Number of samples in each training batch. Example: 160
+   - `--batch-size <B_SIZE>`: Number of samples in each training batch. Example: --batch-size 160
 
    - `--data data/data.yaml`: Path to the YAML file (`data.yaml`) containing dataset configuration, including the dataset location, number of classes, and other relevant information.
 
-   - `--img <SIZE_X> <SIZE_Y>`: Size of the input images during training. Example: 640 640
+   - `--img <SIZE_X> <SIZE_Y>`: Size of the input images during training. Example: --img 640 640
 
    - `--cfg cfg/net.yaml`: Path to the YAML file (`net.yaml`) containing the network architecture configuration for the YOLOv7 model.
 
    - `--weights ''`: Path to the pre-trained weights file to initialize the model. Use an empty string (`''`) if you want to train the model from scratch.
 
-   - `--name <TRAINING_NAME>`: Name for the training run. Example: Signex
+   - `--name <TRAINING_NAME>`: Name for the training run. Example: --name Signex
 
    - `--hyp hyp/hyp.net.yaml`: Path to the YAML file (`hyp.net.yaml`) containing hyperparameters for training, such as learning rate, weight decay, etc.
 
 ### Testing
 
-To run the Neural Network perform the following command:
+To run trained Neural Network perform the following command:
    ```shell
    python yolov7/detect.py --weights ./weights/best.pt --conf <VAL> --img-size <SIZE> --source <PATH_TO_FOLDER_WITH_IMAGES>
    ```
