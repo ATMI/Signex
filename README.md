@@ -132,11 +132,11 @@ To train your custom model:
     <class_id> <cx> <cy> <w> <h>   
     ```
    Where:
-    1. `class_id` - marked object class/type, `&isin; [0, # of clases]`
-    2. `cx` - `x` coordinate of the bounding box center, `&isin; [0, 1]`
-    3. `cy` - `y` coordinate of the bounding box center, `&isin; [0, 1]`
-    4. `w` - `width` of the bounding box, `&isin; [0, 1]`
-    5. `h` - `height` of the bounding box, `&isin; [0, 1]`
+    1. `class_id` - marked object class/type, `&#x2208; [0, # of clases]`
+    2. `cx` - `x` coordinate of the bounding box center, `&#x2208; [0, 1]`
+    3. `cy` - `y` coordinate of the bounding box center, `&#x2208; [0, 1]`
+    4. `w` - `width` of the bounding box, `&#x2208; [0, 1]`
+    5. `h` - `height` of the bounding box, `&#x2208; [0, 1]`
 
    **Note:** `cx`, `cy`, `w`, and `h` are values relative to the corresponding image dimensions
 
