@@ -97,9 +97,13 @@ To run trained Neural Network execute the following command:
 python yolov7/detect.py --weights ./weights/best.pt --conf 0.5 --img-size 640 --source images_dir
 ```
 
-<div style="display: flex;">
-  <img src="images/Detection_Example_1.jpg" alt="Image 1" style="max-width: 50%;">
-  <img src="images/Detection_Example_2.jpg" alt="Image 2" style="max-width: 50%;">
+<div style="display: flex; justify-content: center;">
+    <div style="flex: 50%; padding: 10px;">
+        <img src="images/Detection_Example_1.jpg" alt="Image 1" style="max-width: 100%; height: auto;">
+    </div>
+    <div style="flex: 50%; padding: 10px;">
+        <img src="images/Detection_Example_2.jpg" alt="Image 2" style="max-width: 100%; height: auto;">
+    </div>
 </div>
 
 ### Comparison Model
