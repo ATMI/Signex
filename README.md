@@ -1,7 +1,7 @@
 # Signex
 
 Signex is open source signature & stamp recognition tool, that uses YOLOv7-based model and
-modified [Pytorch](https://github.com/ATMI/yolov7) framework for signature detection and ... for signature embeddings 
+modified [Pytorch](https://github.com/ATMI/yolov7) framework for signature detection and ... for signature embeddings. 
 
 ## Table of Contents
 
@@ -78,9 +78,9 @@ To run the signature recognition architecture, the following requirements should
 ## Build
 
 
-## Usage
+## Training 
 
-### Training Detection Model
+### Detection Model
 
 To train your custom model:
 
@@ -126,7 +126,13 @@ To train your custom model:
 
    - `--hyp hyp/hyp.net.yaml`: Path to the YAML file (`hyp.net.yaml`) containing hyperparameters for training, such as learning rate, weight decay, etc.
 
-### Testing Detection Model
+### Comparison Model
+
+
+
+## Usage
+
+### Detection Model
 
 To run trained Neural Network perform the following command:
    ```shell
@@ -140,9 +146,7 @@ To run trained Neural Network perform the following command:
    - `--img-size <SIZE>`: Size of the input images during detection. Ensure that this value matches the image size used during training. Example: 640
 
 
-### Training Comparison Model
-
-### Launch Comparison Model
+### Comparison Model
 
 ## Contributing
 
