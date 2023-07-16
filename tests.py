@@ -1,8 +1,7 @@
-import io
 import unittest
 from unittest.mock import MagicMock, patch
 
-from api.main import Api
+from api import Api
 
 
 class ApiTests(unittest.TestCase):

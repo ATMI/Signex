@@ -7,9 +7,9 @@ import cv2
 import numpy as np
 from flup.server.fcgi import WSGIServer
 
+from detector.detector import Detector
 from api.response import Response
 from api.values import *
-from detector import Detector
 from utils.result import Result
 
 
