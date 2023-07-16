@@ -132,7 +132,7 @@ To train your custom model:
     <class_id> <cx> <cy> <w> <h>   
     ```
    Where:
-    1. `class_id` - marked object class/type, `&#x2208; [0, # of clases]`
+    1. `class_id` - marked object class/type, &#x2208; [0, # of clases]
     2. `cx` - `x` coordinate of the bounding box center, `&#x2208; [0, 1]`
     3. `cy` - `y` coordinate of the bounding box center, `&#x2208; [0, 1]`
     4. `w` - `width` of the bounding box, `&#x2208; [0, 1]`
