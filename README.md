@@ -145,7 +145,7 @@ To train your custom model:
 5. Modify [data/data.yaml](data/data.yaml):
 
 
-   - `train:` ***path/to/list.lst*** - Set the directory to dataset list for training model
+   - `train: path/to/list.lst` - Set the directory to dataset list for training model
    - `val:` ***path/to/test/list.lst*** - Set the directoru to list for testing trainde model
    - `nc:` - Set number of classes
    - `names:` ***['First class', 'Second class']*** - Add classe names
