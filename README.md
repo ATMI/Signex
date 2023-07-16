@@ -146,8 +146,8 @@ To run trained Neural Network perform the following command:
 
    - `--img-size <SIZE>`: Size of the input images during detection. Ensure that this value matches the image size used during training. Example: 640
 
-<img src="images/Detection_Example_1.jpg" width="500" height="714">
-<img src="images/Detection_Example_1.jpg" width="500" height="714">
+<img src="images/Detection_Example_1.jpg" width="400" height="571">
+<img src="images/Detection_Example_1.jpg" width="400" height="571">
 
 ### Comparison Model
 
