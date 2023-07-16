@@ -129,7 +129,7 @@ endif
 
 To train your custom model:
 
-1. Download/prepare dataset with label tools. We reccomend to use [YOLO Label](https://github.com/developer0hye/Yolo_Label) or [Label Studio](https://labelstud.io/)
+1. Download/prepare dataset with label tools. We reccomend to use [YOLO Label](https://github.com/developer0hye/Yolo_Label)
 
 2. Put all images in the [dataset/images](dataset/images) folder, currently all training images should be `.jpg`
 
@@ -143,8 +143,6 @@ To train your custom model:
    ```
 
 5. Modify [data/data.yaml](data/data.yaml):
-
-
    - `train: path/to/list.lst` - Set the directory to dataset list for training model
    - `val: path/to/test/list.lst` - Set the directoru to list for testing trainde model
    - `nc:` - Set number of classes
@@ -152,12 +150,14 @@ To train your custom model:
 
 6. Optionally you can modify hyperparameters in [hyp/hyp.net.yaml](hyp/hyp.net.yaml)
 
-	3. Set filters number in each [convolutional] layer before each [yolo] layer. Number of filters can be calculated
-	   using the formula `filters = (classes + 5) * 3`:
-   ```shell
-   [convolutional]
-   filters = 21
-   ```
+
+3. Set filters number in each [convolutional] layer before each [yolo] layer. Number of filters can be calculated
+   using the formula `filters = (classes + 5) * 3`:
+```shell
+[convolutional]
+filters = 21
+```
+
 7. Start training
    ```shell
       python yolov7/train.py --workers 8 --device <GPU_NUM> --batch-size <B_SIZE> --data data/data.yaml --img <SIZE_X> <SIZE_Y> --cfg cfg/net.yaml --weights '' --name <TRAINING_NAME> --hyp hyp/hyp.net.yaml
