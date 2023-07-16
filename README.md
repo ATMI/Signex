@@ -70,7 +70,7 @@ To run the signature recognition architecture, the following requirements should
    ```  
 
 
-2. Optionally you can install:
+5. Optionally you can install:
 
 * OpenCV - version 4.x
 * CUDA & cuDNN
@@ -130,14 +130,16 @@ endif
 To train your custom model:
 
 1. Download/prepare dataset with label tools. We reccomend to use [YOLO Label](https://github.com/developer0hye/Yolo_Label) or [Label Studio](https://labelstud.io/)
+
 2. Put all images in the [dataset/images](dataset/images) folder, currently all training images should be `.jpg`
+
 3. Put labels in the [dataset/labels](dataset/labels) folder, each label file name should correspond to the image file
    name.
    Label format is the same as Darknet's label format
 
 4. Change classes number in [cfg/net.yaml](cfg/net.yaml):
 
-   ```ini
+   ```bash
       nc: 2
    ```
 
