@@ -138,30 +138,16 @@ To train your custom model:
    Label format is the same as Darknet's label format
 
 4. Change classes number in [cfg/net.yaml](cfg/net.yaml):
-
    ```shell
-      nc: 2
+      nc: ...
    ```
 
 5. Modify [data/data.yaml](data/data.yaml):
-
-	1. Set classes number:
-      ```shell
-         nc: 2
-      ```
-   2. Add required class names
-      ```shell
-         names: ['first class', 'second class']
-      ```
-   3. Set the directory to dataset list for training
-      ```shell
-         train: some/path/to/list.lst
-      ```
-   4. Set the directory to list for testing trained model
-      ```shell
-         val: path/to/test/list.lst
-      ```
-   6. Optionally you can modify hyperparameters in [hyp/hyp.net.yaml](hyp/hyp.net.yaml)
+   - `nc: ...`: Set number of classes
+   - `names: ['<First class>', '<Second class>']`: Add classe names
+   - `train: path/to/list.lst`: Set the directory to dataset list for training model
+   - `val: path/to/test/list.lst `: Set the directoru to list for testing trainde model
+6. Optionally you can modify hyperparameters in [hyp/hyp.net.yaml](hyp/hyp.net.yaml)
 
 	3. Set filters number in each [convolutional] layer before each [yolo] layer. Number of filters can be calculated
 	   using the formula `filters = (classes + 5) * 3`:
@@ -169,7 +155,7 @@ To train your custom model:
    [convolutional]
    filters = 21
    ```
-6. Start training
+7. Start training
    ```shell
       python yolov7/train.py --workers 8 --device <GPU_NUM> --batch-size <B_SIZE> --data data/data.yaml --img <SIZE_X> <SIZE_Y> --cfg cfg/net.yaml --weights '' --name <TRAINING_NAME> --hyp hyp/hyp.net.yaml
    ```
