@@ -1,7 +1,7 @@
 # Signex
 
 Signex is open source signature & stamp recognition tool, that uses YOLO-based model and
-modified [Pytorch](https://github.com/ATMI/darknet) framework.
+modified [Pytorch](https://github.com/ATMI/yolov7) framework.
 
 ## Table of Contents
 
