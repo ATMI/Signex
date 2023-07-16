@@ -143,7 +143,7 @@ To train your custom model:
 
 5. Modify [data/data.yaml](data/data.yaml):
 	1. Set classes number:
-      ```ini
+      ```shell
          nc: 2
       ```
    2. Add required class names
