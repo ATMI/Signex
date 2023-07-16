@@ -8,9 +8,7 @@ import numpy as np
 from flup.server.fcgi import WSGIServer
 
 from api.response import Response
-from api.values import CGI_REQUEST_METHOD, CGI_DOCUMENT_URI, CGI_CONTENT_TYPE, MULTIPART_FD, CGI_INPUT, \
-	NO_CGI_INPUT, BASE_DETECT_FAILURE, DETECT_FAILURE, GET_FIELD_STORAGE_FAILURE, ACCEPT_REQUEST_FAILURE, CONTENT_JSON, \
-	CONTENT_JPEG, CANT_ENCODE_IMAGE, CONTENT_DISPOSITION
+from api.values import *
 from detector import Detector
 from utils.result import Result
 
@@ -70,7 +68,7 @@ class Api:
 	def detect(self, environ) -> Response:
 		try:
 			result = self.__detect__(environ)
-			if result.is_success:
+			if result.is_success():
 				(pred, _) = result.value
 			else:
 				return result.error
@@ -84,7 +82,7 @@ class Api:
 	def detect_and_draw(self, environ) -> Response:
 		try:
 			result = self.__detect__(environ)
-			if result.is_success:
+			if result.is_success():
 				(pred, img) = result.value
 			else:
 				return result.error
@@ -101,27 +99,52 @@ class Api:
 			self.log(e)
 		return Response.internal_server_error(DETECT_FAILURE)
 
+	def get_field_value(self, field_storage: cgi.FieldStorage, field_name, handler):
+		try:
+			value = field_storage.getvalue(field_name)
+			return Result.success(handler(value))
+		except Exception as e:
+			self.log(e)
+		return Result.failure(Response.invalid_field_value(field_name))
+
+	def get_float(self, field_storage: cgi.FieldStorage, field_name, default):
+		return self.get_field_value(
+			field_storage,
+			field_name,
+			lambda val:
+			default if val is None else float(val)
+		)
+
+	def get_image(self, field_storage: cgi.FieldStorage, field_name):
+		return self.get_field_value(
+			field_storage,
+			field_name,
+			lambda img:
+			cv2.imdecode(np.frombuffer(img, dtype=np.uint8), cv2.IMREAD_COLOR)
+		)
+
 	def __detect__(self, environ) -> Result:
 		try:
-			result = self.get_field_storage(environ)
-			if result.is_success:
-				field_storage: cgi.FieldStorage = result.value
-			else:
-				return result
+			(field_storage, error) = self.get_field_storage(environ)
+			if error:
+				return Result.failure(error)
 
-			image_data = field_storage.getvalue("image")
-			if image_data is None:
-				return Result.failure(Response.no_required_field("image"))
+			(img, error) = self.get_image(field_storage, "image")
+			if error:
+				return Result.failure(error)
 
-			conf_thresh = field_storage.getvalue("conf", default=0.25)
-			iou_thresh = field_storage.getvalue("iou", default=0.25)
+			(conf_thresh, error) = self.get_float(field_storage, "conf_thresh", 0.25)
+			if error:
+				return Result.failure(error)
 
-			image_array = np.frombuffer(image_data, dtype=np.uint8)
-			image_mat = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
-			result = self.detector.detect(image_mat, conf_thresh, iou_thresh)
+			(iou_thresh, error) = self.get_float(field_storage, "iou_thresh", 0.25)
+			if error:
+				return Result.failure(error)
 
-			if result:
-				return Result.success((result, image_mat))
+			result = self.detector.detect(img, conf_thresh, iou_thresh)
+
+			if result is not None:
+				return Result.success((result, img))
 		except Exception as e:
 			self.log(e)
 		return Result.failure(Response.internal_server_error(BASE_DETECT_FAILURE))

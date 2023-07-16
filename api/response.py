@@ -30,6 +30,10 @@ class Response:
 		return cls.bad_request(f"Can not find required field: '{field_name}'\n")
 
 	@classmethod
+	def invalid_field_value(cls, field_name) -> 'Response':
+		return cls.bad_request(f"Invalid field value: '{field_name}'\n")
+
+	@classmethod
 	def no_such_method(cls, method, name) -> 'Response':
 		return cls.bad_request(f"Can not find requested method: '{method}: {name}'\n")
 
