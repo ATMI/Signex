@@ -9,6 +9,7 @@ modified [Pytorch](https://github.com/ATMI/yolov7) framework for signature detec
 * [Structure](#structure)
 * [Requirements](#requirements)
 * [Installation](#installation)
+* [Training](#training)
 * [Usage](#usage)
 * [Contributing](#contributing)
 * [License](#license)
