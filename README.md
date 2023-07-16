@@ -31,13 +31,14 @@ To run the signature recognition architecture, the following requirements should
 1. Clone the repository:
 
    **SSH:**
-```shell
-    git clone —depth 1 --recurse-submodules git@gitlab.pg.innopolis.university:sofwarus-progectus/signature-recognition.git
-```
+   ```shell
+      git clone —depth 1 --recurse-submodules git@gitlab.pg.innopolis.university:sofwarus-progectus/signature-recognition.git
+   ```
+
    **HTTPS:** 
-```shell
-   git clone —depth 1 --recurse-submodules https://gitlab.pg.innopolis.university/sofwarus-progectus/signature-recognition.git
-```
+   ```shell
+      git clone —depth 1 --recurse-submodules https://gitlab.pg.innopolis.university/sofwarus-progectus/signature-recognition.git
+   ```
 
 2. Navigate to project and set up a virtual environment 
 
