@@ -52,7 +52,6 @@ To run the signature recognition architecture, the following requirements should
    **Linux:**
    ```shell
       . venv/bin/activate
-      
    ``` 
    **Windows:**
    ```shell
@@ -159,34 +158,34 @@ classes = 2
    **Command Parameters**
    - `--workers 8`: Number of worker processes to use for data loading during training. You can increase this value to speed up data loading if you have sufficient CPU resources.
 
-   - `--device <GPU_NUM>`: Specify the device (GPU) to be used for training.
+   - `--device <GPU_NUM>`: Specify the device (GPU) to be used for training. Exaple: --device 0
 
-   - `--batch-size <B_SIZE>`: Number of samples in each training batch.
+   - `--batch-size <B_SIZE>`: Number of samples in each training batch. Example: 160
 
    - `--data data/data.yaml`: Path to the YAML file (`data.yaml`) containing dataset configuration, including the dataset location, number of classes, and other relevant information.
 
-   - `--img <SIZE_X> <SIZE_Y>`: Size of the input images during training.
+   - `--img <SIZE_X> <SIZE_Y>`: Size of the input images during training. Example: 640 640
 
    - `--cfg cfg/net.yaml`: Path to the YAML file (`net.yaml`) containing the network architecture configuration for the YOLOv7 model.
 
    - `--weights ''`: Path to the pre-trained weights file to initialize the model. Use an empty string (`''`) if you want to train the model from scratch.
 
-   - `--name <TRAINING_NAME>`: Name for the training run.
+   - `--name <TRAINING_NAME>`: Name for the training run. Example: Signex
 
    - `--hyp hyp/hyp.net.yaml`: Path to the YAML file (`hyp.net.yaml`) containing hyperparameters for training, such as learning rate, weight decay, etc.
 
 ### Testing
 
-Run the Neural Network
+To run the Neural Network perform the following command:
    ```shell
    python yolov7/detect.py --weights ./weights/best.pt --conf <VAL> --img-size <SIZE> --source <PATH_TO_FOLDER_WITH_IMAGES>
    ```
    **Command Parameters**
    - `--weights ./weights/best.pt`: Path to the trained weights file of your YOLOv7 model.
 
-   - `--conf <VAL>`: Confidence threshold for object detection <VAL>. Objects with a detection confidence score below this threshold will be filtered out.
+   - `--conf <VAL>`: Confidence threshold for object detection (Example: 0.6). Objects with a detection confidence score below this threshold will be filtered out. 
 
-   - `--img-size <SIZE>`: Size of the input images during detection. Ensure that this value matches the image size used during training.
+   - `--img-size <SIZE>`: Size of the input images during detection. Ensure that this value matches the image size used during training. Example: 640
 
 ## Contributing
 
