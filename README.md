@@ -143,10 +143,10 @@ To train your custom model:
    ```
 
 5. Modify [data/data.yaml](data/data.yaml):
-   - `nc: ...`: Set number of classes
-   - `names: ['<First class>', '<Second class>']`: Add classe names
-   - `train: path/to/list.lst`: Set the directory to dataset list for training model
-   - `val: path/to/test/list.lst `: Set the directoru to list for testing trainde model
+   - `nc:`... : Set number of classes
+   - `names:` ['<First class>', '<Second class>']: Add classe names
+   - `train:` *path/to/list.lst*: Set the directory to dataset list for training model
+   - `val:` *path/to/test/list.lst*: Set the directoru to list for testing trainde model
 6. Optionally you can modify hyperparameters in [hyp/hyp.net.yaml](hyp/hyp.net.yaml)
 
 	3. Set filters number in each [convolutional] layer before each [yolo] layer. Number of filters can be calculated
