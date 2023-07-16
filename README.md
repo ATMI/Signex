@@ -20,7 +20,8 @@ modified [Pytorch](https://github.com/ATMI/yolov7) framework for signature detec
 Signature & stamp recognition is a valuable tool in various domains, including banking, legal, and security
 applications. This architecture provides a framework for building a signature recognition system using machine learning
 algorithms.
-
+![image](images/Detection_Example_1.jpg)
+![image](images/Detection_Example_2.jpg)
 
 ## Structure
 
