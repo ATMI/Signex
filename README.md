@@ -146,9 +146,9 @@ To train your custom model:
 
 
    - `train: path/to/list.lst` - Set the directory to dataset list for training model
-   - `val:` ***path/to/test/list.lst*** - Set the directoru to list for testing trainde model
+   - `val: path/to/test/list.lst` - Set the directoru to list for testing trainde model
    - `nc:` - Set number of classes
-   - `names:` ***['First class', 'Second class']*** - Add classe names
+   - `names: ['First class', 'Second class']` - Add class names
 
 6. Optionally you can modify hyperparameters in [hyp/hyp.net.yaml](hyp/hyp.net.yaml)
 
