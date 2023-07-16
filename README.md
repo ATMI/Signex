@@ -98,8 +98,8 @@ python yolov7/detect.py --weights ./weights/best.pt --conf 0.5 --img-size 640 --
 ```
 
 <div style="display: flex;">
-  <img src="images/Detection_Example_1.jpg" alt="Image 1" style="flex: 50%;">
-  <img src="images/Detection_Example_2.jpg" alt="Image 2" style="flex: 50%;">
+  <img src="images/Detection_Example_1.jpg" alt="Image 1" style="max-width: 50%;">
+  <img src="images/Detection_Example_2.jpg" alt="Image 2" style="max-width: 50%;">
 </div>
 
 ### Comparison Model
