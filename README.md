@@ -44,15 +44,17 @@ To run the signature recognition architecture, the following requirements should
       python -m venv venv
    ```
 3. Activate venv
-   **Linux:**
    ```shell
+      **Linux:**
       . venv/bin/activate
+      **Windows:**
+      venv\Scripts\activate
    ``` 
 
-   **Windows:**
-   ```shell
-      venv\Scripts\activate
-   ```    
+   
+   <!-- ```shell
+      
+   ```     -->
 4. Install requirements
    ```shell
       pip install -r requirements.txt
