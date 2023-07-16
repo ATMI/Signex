@@ -131,7 +131,7 @@ To train your custom model:
 
 1. Download/prepare dataset with label tools. We reccomend to use [YOLO Label](https://github.com/developer0hye/Yolo_Label).
 
-2. Put all images and labels in the [dataset/train](dataset/train) folder, currently all training images should be `.jpg`. Each label file name should correspond to the image file. Label format is the same as Darknet label format.
+2. Put all images and labels that will be used for training model in the [dataset/train](dataset/train) folder. Currently all training images should be `.jpg`. Each label file name should correspond to the image file. Label format is the same as Darknet label format.
 
 3. Put images and labels in the [dataset/test](dataset/test) for testing the trained model.
 
@@ -147,14 +147,6 @@ To train your custom model:
    - `names: ['First class', 'Second class']` - Add class names
 
 6. Optionally you can modify hyperparameters in [hyp/hyp.net.yaml](hyp/hyp.net.yaml)
-
-
-3. Set filters number in each [convolutional] layer before each [yolo] layer. Number of filters can be calculated
-   using the formula `filters = (classes + 5) * 3`:
-```shell
-[convolutional]
-filters = 21
-```
 
 7. Start training
    ```shell
