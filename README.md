@@ -1,7 +1,7 @@
 # Signex
 
 Signex is open source signature & stamp recognition tool, that uses YOLO-based model and
-modified [Darknet](https://github.com/ATMI/darknet) framework.
+modified [Pytorch](https://github.com/ATMI/darknet) framework.
 
 ## Table of Contents
 
@@ -31,13 +31,38 @@ To run the signature recognition architecture, the following requirements should
 1. Clone the repository:
 
 ```shell
-git clone --recurse-submodules git@gitlab.pg.innopolis.university:sofwarus-progectus/signature-recognition.git
+   SSH: git clone —depth 1 --recurse-submodules git@gitlab.pg.innopolis.university:sofwarus-progectus/signature-recognition.git
+
+   HTTPS: git clone —depth 1 --recurse-submodules https://gitlab.pg.innopolis.university/sofwarus-progectus/signature-recognition.git
 ```
 
+2. Navigate to project and set up a virtual environment 
+
+   ```shell
+      cd signature-recognition
+
+      python -m venv venv
+   ```
+3. Activate venv
+   **Linux:**
+   ```shell
+      . venv/bin/activate
+   ``` 
+
+   **Windows:**
+   ```shell
+      venv\Scripts\activate
+   ```    
+4. Install requirements
+   ```shell
+      pip install -r requirements.txt
+   ```  
+
+<!-- 
 2. Optionally you can install:
 
 * OpenCV - version 4.x
-* CUDA & cuDNN
+* CUDA & cuDNN -->
 
 ## Build
 
@@ -111,11 +136,10 @@ Stamp
 classes = 2
 ```
 
-6. Modify [cfg/net.cfg](cfg/net.cfg):
+6. Modify [cfg/net.yaml](cfg/net.yaml):
 	1. Set classes number in each [yolo] layer:
    ```ini
-   [yolo]
-   classes = 2
+      nc: 2
    ```
 	2. Set filters number in each [convolutional] layer before each [yolo] layer. Number of filters can be calculated
 	   using the formula `filters = (classes + 5) * 3`:
@@ -123,6 +147,39 @@ classes = 2
    [convolutional]
    filters = 21
    ```
+7. Start training
+   ```shell
+      python yolov7/train.py --workers 8 --device 0 --batch-size 160 --data data/data.yaml --img 640 640 --cfg cfg/net.yaml --weights '' --name signex --hyp hyp/hyp.net.yaml
+   ```
+   **Command Parameters**
+   - `--workers 8`: Number of worker processes to use for data loading during training. You can increase this value to speed up data loading if you have sufficient CPU resources.
+
+   - `--device 0`: Specify the device (GPU) to be used for training.
+
+   - `--batch-size 160`: Number of samples in each training batch.
+
+   - `--data data/data.yaml`: Path to the YAML file (`data.yaml`) containing dataset configuration, including the dataset location, number of classes, and other relevant information.
+
+   - `--img 640 640`: Size of the input images during training.
+
+   - `--cfg cfg/net.yaml`: Path to the YAML file (`net.yaml`) containing the network architecture configuration for the YOLOv7 model.
+
+   - `--weights ''`: Path to the pre-trained weights file to initialize the model. Use an empty string (`''`) if you want to train the model from scratch.
+
+   - `--name signex`: Name for the training run.
+
+   - `--hyp hyp/hyp.net.yaml`: Path to the YAML file (`hyp.net.yaml`) containing hyperparameters for training, such as learning rate, weight decay, etc.
+
+8. Run the Neural Network
+   ```shell
+   python yolov7/detect.py --weights ./weights/best.pt --conf 0.5 --img-size 640 --source <PATH_TO_FOLDER_WITH_IMAGES>
+   ```
+   - `--weights ./weights/best.pt`: Path to the trained weights file of your YOLOv7 model.
+
+   - `--conf 0.5`: Confidence threshold for object detection. Objects with a detection confidence score below this threshold will be filtered out.
+
+   - `--img-size 640`: Size of the input images during detection. Ensure that this value matches the image size used during training.
+
 
 ### Testing
 
