@@ -62,7 +62,7 @@ To run the signature recognition architecture, the following requirements should
       . venv/bin/activate
    ``` 
    **Windows:**
-   ```shell
+   ```
       venv\Scripts\activate
    ```    
 4. Install requirements
