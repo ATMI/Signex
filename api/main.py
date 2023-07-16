@@ -19,8 +19,8 @@ class Api:
 		self.detector = detector
 		self.server = WSGIServer(self.accept_request, bindAddress=address)
 		self.handlers: Dict[Tuple[str, str], Callable[[dict], Response]] = {
-			("/detect", "POST"): self.detect,
-			("/detect_and_draw", "POST"): self.detect_and_draw,
+			("/find_signatures", "POST"): self.detect,
+			("/trace_signatures", "POST"): self.detect_and_draw,
 			("/compare", "POST"): self.compare
 		}
 
@@ -157,6 +157,6 @@ class Api:
 
 
 if __name__ == "__main__":
-	detector = Detector("weights/best.pt", 1, print)
+	detector = Detector("weights/last.pt", 1, print)
 	api = Api(("localhost", 8080), detector, print)
 	api.run()

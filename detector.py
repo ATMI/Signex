@@ -127,12 +127,12 @@ class Detector:
 			self.log(e)
 		return None
 
-	def draw_boxes(self, img, pred, line_thickness=1):
+	def draw_boxes(self, img, pred, line_thickness=3):
 		try:
 			tl = line_thickness or round(0.002 * (img.shape[0] + img.shape[1]) / 2) + 1
 
 			for detection in pred:
-				label = f'{detection.name} {detection.conf}.%2'
+				label = f'{detection.name} {detection.conf:.2%}'
 				color = self.colors[detection.cls]
 
 				c1 = (detection.bbox.x1, detection.bbox.y1)
