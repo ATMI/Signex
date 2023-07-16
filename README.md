@@ -6,7 +6,7 @@ modified [Pytorch](https://github.com/ATMI/yolov7) framework.
 ## Table of Contents
 
 * [Introduction](#introduction)
-* [Architecture](#architecture)
+* [Structure](#structure)
 * [Requirements](#requirements)
 * [Installation](#installation)
 * [Usage](#usage)
@@ -20,7 +20,7 @@ applications. This architecture provides a framework for building a signature re
 algorithms.
 
 
-## Architecture
+## Structure
 
 
 
@@ -137,15 +137,15 @@ To train your custom model:
 
 4. Change classes number in [cfg/net.yaml](cfg/net.yaml):
 
-```ini
-   nc: = 2
-```
-
-5. Modify [data/data.yaml](data/data.yaml):
-	1. Set classes number:
    ```ini
       nc: 2
    ```
+
+5. Modify [data/data.yaml](data/data.yaml):
+	1. Set classes number:
+      ```ini
+         nc: 2
+      ```
    2. Add required class names
       ```ini
          names: ['first class', 'second class']
