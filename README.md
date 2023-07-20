@@ -99,9 +99,8 @@ pip install -r requirements.txt
 To run trained Neural Network execute the following command:
 
 ```shell
-. venv/bin/activate
-export PYTHONPATH=$PYTHONPATH:./
-python yolov7/detect.py --weights ./weights/best.pt --conf 0.5 --img-size 640 --source images_dir
+cd detector
+python ../yolov7/detect.py --weights weights/best.pt --conf 0.5 --img-size 640 --source images_dir
 ```
 
 <div style="display: flex; justify-content: center;">
@@ -137,9 +136,10 @@ torch.save(MODEL, "model.pt")
 
 ### Structure
 
-* [cfg](cfg) - neural network configurations folder
-* [data](data) - dataset configurations folder
-* [hyp](hyp) - hyperparameters for training neural network, such as learning rate, augmentation strategies, etc.
+* [cfg](detector/cfg) - neural network configurations folder
+* [data](detector/data) - dataset configurations folder
+* [hyp](detector/hyp) - hyperparameters for training neural network, such as learning rate, augmentation strategies,
+  etc.
 
 ### Dataset preparation
 
@@ -162,17 +162,19 @@ To train your custom model:
    **Note:** `cx`, `cy`, `w`, and `h` are values relative to the corresponding image dimensions
 
 
-5. Put or symlink all images and labels in the [dataset/images](dataset/images) and [dataset/labels](dataset/labels)
+5. Put or symlink all images and labels in the [dataset/images](detector/dataset/images)
+   and [dataset/labels](detector/dataset/labels)
    folders. Each label file name should correspond to the image file:
     ```
    image_1.jpg <-> image_1.txt
    ball.jpg <-> ball.txt
     ```
-6. Change classes number in [cfg/net.yaml](cfg/net.yaml):
+6. Change classes number in [cfg/net.yaml](detector/cfg/net.yaml):
    ```yaml
    nc: 2 # number of classes
    ```
-7. Create [dataset/train.lst](dataset/train.lst) and [dataset/test.lst](dataset/test.lst) files, that will contain paths
+7. Create [dataset/train.lst](detector/dataset/train.lst) and [dataset/test.lst](detector/dataset/test.lst) files, that
+   will contain paths
    to
    the training and testing images. You can use `shufflels` tool to create them automatically:
     1. Build `shufflels`:
@@ -184,22 +186,23 @@ To train your custom model:
        cd dataset
        ./shufflels images jpg 80
        ```
-8. You can specify custom [train.lst]() and [test.lst]() paths in the [data/data.yaml](data/data.yaml) file:
+8. You can specify custom [train.lst]() and [test.lst]() paths in the [data/data.yaml](detector/data/data.yaml) file:
     ```yaml
    train: dataset/list.lst # path to images list used for training
    val: dataset/list.lst # path to images list used for testing
     ```
-9. Specify number and names of the classes in the [data/data.yaml](data/data.yaml) file:
+9. Specify number and names of the classes in the [data/data.yaml](detector/data/data.yaml) file:
     ```yaml
    nc: 2 # number of classes in the dataset
    names: ['signature', 'stamp'] # names of the classes
     ```
 
-10. Optionally you can modify hyperparameters in [hyp/hyp.net.yaml](hyp/hyp.net.yaml)
+10. Optionally you can modify hyperparameters in [hyp/hyp.net.yaml](detector/hyp/hyp.net.yaml)
 
 11. Start training
     ```shell
-    python yolov7/train.py --workers 8 --device 0 --batch-size 64 --data data/data.yaml --img 640 640 --cfg cfg/net.yaml --weights '' --name net --hyp hyp/hyp.net.yaml
+    cd detector
+    python ../yolov7/train.py --workers 8 --device 0 --batch-size 64 --data data/data.yaml --img 640 640 --cfg cfg/net.yaml --weights weights/best.pt --name net --hyp hyp/hyp.net.yaml
     ```
 
 ### Comparison Model
@@ -234,9 +237,8 @@ dataset/
 To test the training model run:
 
 ```shell
-. venv\bin\activate
-export PYTHONPATH=$PYTHONPATH:./
-python yolov7/test.py --weights ./weights/best.pt --img-size 640 --data data/data.yaml
+cd detector
+python ../yolov7/test.py --weights weights/best.pt --img-size 640 --data data/data.yaml
 ```
 
 With the latest model we have obtained the following results (all images were not included in the training dataset):
@@ -257,7 +259,7 @@ Confusion matrix:
 
 ## Comparison Model
 
-Currently, see the **Training** section 
+Currently, see the **Training** section
 
 # Contributing
 
@@ -280,7 +282,7 @@ Signex is still under development and the following tasks have to be done:
 
 1. Development of in-stamp signatures extraction model. Our model is also trained to detect stamps for their potential
    further
-   processing. We can try to find signatures inside stamps to improve signature detection accuracy, ac current accuracy
+   processing. We can try to find signatures inside stamps to improve signature detection accuracy, as current accuracy
    may seem relative low:
 
 <div style="display: flex; justify-content: center;">
