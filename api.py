@@ -13,7 +13,7 @@ from api.response import Response
 from api.values import *
 from comparator.comparator import Comparator
 from detector.detector import Detector
-from utils.result import Result
+from signex_utils.result import Result
 
 sys.modules["__main__"] = tri_net
 

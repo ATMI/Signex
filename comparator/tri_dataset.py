@@ -5,7 +5,7 @@ from collections import defaultdict
 from PIL import Image
 from torch.utils import data
 
-from utils.pair import Pair
+from signex_utils.pair import Pair
 
 
 class TriDataset(data.Dataset):
