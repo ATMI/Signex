@@ -1,0 +1,92 @@
+import queue
+from concurrent.futures import ThreadPoolExecutor, Future
+from enum import Enum
+
+import cv2
+import torch
+from PIL import Image
+from torch import nn
+from torchvision import transforms
+
+
+class Task(Enum):
+	STOP = 0,
+	COMPARE = 1
+
+
+class Comparator:
+	def __init__(self, weights, input_size, max_workers, log):
+		self.queue = queue.Queue()
+		self.log = log
+
+		self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+		self.model = torch.load(weights, map_location=self.device)
+
+		self.input_size = input_size
+		self.transform = transforms.Compose([
+			self.preprocess_image,
+			transforms.ToTensor(),  # Convert the image to a tensor
+			transforms.Normalize(mean=[0.485], std=[0.229])
+		])
+
+		self.model = nn.DataParallel(self.model)
+		self.executor = ThreadPoolExecutor(max_workers=max_workers)
+
+		for _ in range(max_workers):
+			self.executor.submit(self.worker)
+
+	def worker(self):
+		while True:
+			try:
+				(task, args) = self.queue.get()
+				if not self.handle_task(task, args):
+					break
+			except Exception as e:
+				self.log(e)
+			finally:
+				self.queue.task_done()
+
+	def handle_task(self, task, args):
+		match task:
+			case Task.STOP:
+				return False
+			case Task.COMPARE:
+				(image_a, image_b, future) = args
+				self.__compare__(image_a, image_b, future)
+		return True
+
+	def __compare__(self, image_a, image_b, future: Future):
+		try:
+			image_a = image_a.to(self.device).unsqueeze(0)
+			image_b = image_b.to(self.device).unsqueeze(0)
+			output_a, _, output_b = self.model(image_a, image_a, image_b)
+
+			similarity = (1 - nn.functional.cosine_similarity(output_a, output_b)) / 2
+			similarity = similarity.item()
+
+			future.set_result((True, similarity))
+		except Exception as e:
+			self.log(e)
+			future.set_result((False, e))
+
+	def compare(self, image_a, image_b):
+		try:
+			image_a = self.transform(image_a)
+			image_b = self.transform(image_b)
+
+			future = Future()
+			self.queue.put((Task.COMPARE, (image_a, image_b, future)))
+			(ok, result) = future.result()
+
+			if ok:
+				return result
+		except Exception as e:
+			self.log(e)
+		return None
+
+	def preprocess_image(self, image):
+		image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+		image = cv2.resize(image, (self.input_size, self.input_size), interpolation=cv2.INTER_LINEAR)
+		image = cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 31, 12)
+		image = Image.fromarray(image)
+		return image

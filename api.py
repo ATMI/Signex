@@ -1,5 +1,6 @@
 import cgi
 import json
+import sys
 from http import HTTPStatus
 from typing import Dict, Tuple, Callable
 
@@ -7,16 +8,21 @@ import cv2
 import numpy as np
 from flup.server.fcgi import WSGIServer
 
-from detector.detector import Detector
+from comparator import tri_net
 from api.response import Response
 from api.values import *
+from comparator.comparator import Comparator
+from detector.detector import Detector
 from utils.result import Result
+
+sys.modules["__main__"] = tri_net
 
 
 class Api:
-	def __init__(self, address, detector: Detector, log):
+	def __init__(self, address, detector, comparator, log):
 		self.log = log
 		self.detector = detector
+		self.comparator = comparator
 		self.server = WSGIServer(self.accept_request, bindAddress=address)
 		self.handlers: Dict[Tuple[str, str], Callable[[dict], Response]] = {
 			("/find_signatures", "POST"): self.detect,
@@ -142,7 +148,6 @@ class Api:
 				return Result.failure(error)
 
 			result = self.detector.detect(img, conf_thresh, iou_thresh)
-
 			if result is not None:
 				return Result.success((result, img))
 		except Exception as e:
@@ -150,6 +155,27 @@ class Api:
 		return Result.failure(Response.internal_server_error(BASE_DETECT_FAILURE))
 
 	def compare(self, environ) -> Response:
+		"""
+		try:
+			(field_storage, error) = self.get_field_storage(environ)
+			if error:
+				return error
+
+			(img_a, error) = self.get_image(field_storage, "image_a")
+			if error:
+				return error
+
+			(img_b, error) = self.get_image(field_storage, "image_b")
+			if error:
+				return error
+
+			result = self.comparator.compare(img_a, img_b)
+			if result is not None:
+				return Response.ok(f"{{ \"similarity\": {result} }}", [CONTENT_JSON])
+		except Exception as e:
+			self.log(e)
+		return Response.internal_server_error(COMPARE_FAILURE)
+		"""
 		return Response.not_implemented()
 
 	def run(self):
@@ -158,5 +184,5 @@ class Api:
 
 if __name__ == "__main__":
 	detector = Detector("weights/last.pt", 1, print)
-	api = Api(("localhost", 8080), detector, print)
+	api = Api(("localhost", 8080), detector, None, print)
 	api.run()
