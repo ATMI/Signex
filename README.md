@@ -45,7 +45,7 @@ To run the signature recognition architecture, the following requirements should
    install [CUDA 11.8](https://developer.nvidia.com/cuda-11-8-0-download-archive)
 2. Clone the repository:
    ```shell
-   git clone --depth 1 --recurse-submodules https://gitlab.pg.innopolis.university/sofwarus-progectus/signature-recognition.git
+   git clone --depth 1 --recurse-submodules https://github.com/ATMI/Signex.git
    ```
 3. Navigate to the project:
    ```shell
@@ -75,7 +75,7 @@ To run the signature recognition architecture, the following requirements should
 ## Linux:
 
 ```shell
-git clone --depth 1 --recurse-submodules https://gitlab.pg.innopolis.university/sofwarus-progectus/signature-recognition.git
+git clone --depth 1 --recurse-submodules https://github.com/ATMI/Signex.git
 cd signature-recognition
 python -m venv venv
 . venv/bin/activate
@@ -85,7 +85,7 @@ pip install -r requirements.txt
 ## Windows:
 
 ```shell
-git clone --depth 1 --recurse-submodules https://gitlab.pg.innopolis.university/sofwarus-progectus/signature-recognition.git
+git clone --depth 1 --recurse-submodules https://github.com/ATMI/Signex.git
 cd signature-recognition
 python -m venv venv
 venv\Scripts\activate
