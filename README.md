@@ -76,7 +76,7 @@ To run the signature recognition architecture, the following requirements should
 
 ```shell
 git clone --depth 1 --recurse-submodules https://github.com/ATMI/Signex.git
-cd signature-recognition
+cd Signex
 python -m venv venv
 . venv/bin/activate
 pip install -r requirements.txt
@@ -86,7 +86,7 @@ pip install -r requirements.txt
 
 ```shell
 git clone --depth 1 --recurse-submodules https://github.com/ATMI/Signex.git
-cd signature-recognition
+cd Signex
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
