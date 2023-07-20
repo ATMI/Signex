@@ -6,7 +6,7 @@
 and **EfficientNet v2 S**
 for signature embeddings.
 
-[Here](https://app.swaggerhub.com/apis/TIMOFEYBRAYKO/SWP/1.0.0#/Comparison%20Neural%20Network/post_compare) you can find
+[Here](https://app.swaggerhub.com/apis/TIMOFEYBRAYKO/SWP/1.0.0) you can find
 our Swagger API description.
 
 # Table of Contents
