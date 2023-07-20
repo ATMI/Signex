@@ -183,6 +183,6 @@ class Api:
 
 
 if __name__ == "__main__":
-	detector = Detector("weights/last.pt", 1, print)
+	detector = Detector("weights/best.pt", 1, print)
 	api = Api(("localhost", 8080), detector, None, print)
 	api.run()
