@@ -58,7 +58,7 @@ To run the signature recognition architecture, the following requirements should
    ```
 5. Update `PYTHONPATH` variable:
    ```shell
-   export PYTHONPATH=$PYTHONPATH:./
+   export PYTHONPATH=$PYTHONPATH:yolov7
    ```
 6. Activate venv:
 
@@ -121,7 +121,7 @@ python ../yolov7/detect.py --weights weights/best.pt --conf 0.5 --img-size 640 -
 
 ### Comparison Model
 
-As for now comparison model is only available in the [comparator/main.ipynb](comparator/main.ipynb).
+As for now comparison model is only available in the [comparator/main.ipynb](comparison/main.ipynb).
 You can test existing model running the following cell:
 
 ```python
@@ -143,9 +143,9 @@ torch.save(MODEL, "model.pt")
 
 ### Structure
 
-* [cfg](detector/cfg) - neural network configurations folder
-* [data](detector/data) - dataset configurations folder
-* [hyp](detector/hyp) - hyperparameters for training neural network, such as learning rate, augmentation strategies,
+* [cfg](detection/cfg) - neural network configurations folder
+* [data](detection/data) - dataset configurations folder
+* [hyp](detection/hyp) - hyperparameters for training neural network, such as learning rate, augmentation strategies,
   etc.
 
 ### Dataset preparation
@@ -169,18 +169,18 @@ To train your custom model:
    **Note:** `cx`, `cy`, `w`, and `h` are values relative to the corresponding image dimensions
 
 
-5. Put or symlink all images and labels in the [dataset/images](detector/dataset/images)
-   and [dataset/labels](detector/dataset/labels)
+5. Put or symlink all images and labels in the [dataset/images](detection/dataset/images)
+   and [dataset/labels](detection/dataset/labels)
    folders. Each label file name should correspond to the image file:
     ```
    image_1.jpg <-> image_1.txt
    ball.jpg <-> ball.txt
     ```
-6. Change classes number in [cfg/net.yaml](detector/cfg/net.yaml):
+6. Change classes number in [cfg/net.yaml](detection/cfg/net.yaml):
    ```yaml
    nc: 2 # number of classes
    ```
-7. Create [dataset/train.lst](detector/dataset/train.lst) and [dataset/test.lst](detector/dataset/test.lst) files, that
+7. Create [dataset/train.lst](detection/dataset/train.lst) and [dataset/test.lst](detection/dataset/test.lst) files, that
    will contain paths
    to
    the training and testing images. You can use `shufflels` tool to create them automatically:
@@ -193,18 +193,18 @@ To train your custom model:
        cd dataset
        ./shufflels images jpg 80
        ```
-8. You can specify custom [train.lst]() and [test.lst]() paths in the [data/data.yaml](detector/data/data.yaml) file:
+8. You can specify custom [train.lst]() and [test.lst]() paths in the [data/data.yaml](detection/data/data.yaml) file:
     ```yaml
    train: dataset/list.lst # path to images list used for training
    val: dataset/list.lst # path to images list used for testing
     ```
-9. Specify number and names of the classes in the [data/data.yaml](detector/data/data.yaml) file:
+9. Specify number and names of the classes in the [data/data.yaml](detection/data/data.yaml) file:
     ```yaml
    nc: 2 # number of classes in the dataset
    names: ['signature', 'stamp'] # names of the classes
     ```
 
-10. Optionally you can modify hyperparameters in [hyp/hyp.net.yaml](detector/hyp/hyp.net.yaml)
+10. Optionally you can modify hyperparameters in [hyp/hyp.net.yaml](detection/hyp/hyp.net.yaml)
 
 11. Start training
     ```shell
@@ -214,10 +214,10 @@ To train your custom model:
 
 ### Comparison Model
 
-To train and test comparison model you can run the [comparator/main.ipynb](comparator/main.ipynb).
-The training dataset should be placed under [comparator/dataset/train](comparator/dataset/train), each sub-folder should
+To train and test comparison model you can run the [comparator/main.ipynb](comparison/main.ipynb).
+The training dataset should be placed under [comparator/dataset/train](comparison/dataset/train), each sub-folder should
 contain different variants of the same signature. The testing data should be placed
-under [comparator/dataset/test](comparator/dataset/test):
+under [comparator/dataset/test](comparison/dataset/test):
 
 ```
 dataset/
@@ -275,7 +275,7 @@ To start an API, you need to run:
 python api.py
 ```
 
-By default, it listens to `8080` port and loads [detector/weights/best.pt](detector/weights/best.pt) weights for the detector. 
+By default, it listens to `8080` port and loads [detector/weights/best.pt](detection/weights/best.pt) weights for the detector. 
 
 # Contributing
 
