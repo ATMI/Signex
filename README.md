@@ -18,6 +18,7 @@ our Swagger API description.
 * [Training](#training)
 * [Usage](#usage)
 * [Testing](#testing)
+* [API](#api)
 * [Contributing](#contributing)
 * [License](#license)
 
@@ -55,7 +56,11 @@ To run the signature recognition architecture, the following requirements should
    ```shell
    python -m venv venv
    ```
-5. Activate venv:
+5. Update `PYTHONPATH` variable:
+   ```shell
+   export PYTHONPATH=$PYTHONPATH:./
+   ```
+6. Activate venv:
 
    **Linux:**
    ```shell
@@ -65,7 +70,7 @@ To run the signature recognition architecture, the following requirements should
    ```
    venv\Scripts\activate
    ```
-6. Install the requirements:
+7. Install the requirements:
    ```shell
    pip install -r requirements.txt
    ```
@@ -78,6 +83,7 @@ To run the signature recognition architecture, the following requirements should
 git clone --depth 1 --recurse-submodules https://github.com/ATMI/Signex.git
 cd Signex
 python -m venv venv
+export PYTHONPATH=$PYTHONPATH:yolov7
 . venv/bin/activate
 pip install -r requirements.txt
 ```
@@ -88,6 +94,7 @@ pip install -r requirements.txt
 git clone --depth 1 --recurse-submodules https://github.com/ATMI/Signex.git
 cd Signex
 python -m venv venv
+export PYTHONPATH=$PYTHONPATH:yolov7
 venv\Scripts\activate
 pip install -r requirements.txt
 ```
@@ -260,6 +267,15 @@ Confusion matrix:
 ## Comparison Model
 
 Currently, see the **Training** section
+
+# API
+To start an API, you need to run:
+
+```shell
+python api.py
+```
+
+By default, it listens to `8080` port and loads [detector/weights/best.pt](detector/weights/best.pt) weights for the detector. 
 
 # Contributing
 
