@@ -2,10 +2,12 @@
 
 ![image](images/Logo.png)
 
-Signex is open source signature & stamp recognition tool, that uses YOLOv7-based model for signature detection and ...
+**Signex** is open source signature & stamp recognition tool, that uses **YOLOv7**-based model for signature detection
+and **EfficientNet v2 S**
 for signature embeddings.
 
-[Here](https://app.swaggerhub.com/apis/TIMOFEYBRAYKO/SWP/1.0.0#/Comparison%20Neural%20Network/post_compare) you can find our Swagger API description. 
+[Here](https://app.swaggerhub.com/apis/TIMOFEYBRAYKO/SWP/1.0.0#/Comparison%20Neural%20Network/post_compare) you can find
+our Swagger API description.
 
 # Table of Contents
 
@@ -15,6 +17,7 @@ for signature embeddings.
 * [Installation](#installation)
 * [Training](#training)
 * [Usage](#usage)
+* [Testing](#testing)
 * [Contributing](#contributing)
 * [License](#license)
 
@@ -96,6 +99,8 @@ pip install -r requirements.txt
 To run trained Neural Network execute the following command:
 
 ```shell
+. venv/bin/activate
+export PYTHONPATH=$PYTHONPATH:./
 python yolov7/detect.py --weights ./weights/best.pt --conf 0.5 --img-size 640 --source images_dir
 ```
 
@@ -109,6 +114,22 @@ python yolov7/detect.py --weights ./weights/best.pt --conf 0.5 --img-size 640 --
 </div>
 
 ### Comparison Model
+
+As for now comparison model is only available in the [comparator/main.ipynb](comparator/main.ipynb).
+You can test existing model running the following cell:
+
+```python
+MODEL = torch.load("weights/model.pt")
+TEST_DATASET = TriDataset(TEST_PATH, transform=TRANSFORM, display=True)
+test(MODEL, DEVICE, TEST_DATASET)
+```
+
+Do not forget to run previous cells except training one:
+
+```python
+MODEL = train(DEVICE)
+torch.save(MODEL, "model.pt")
+```
 
 # Training
 
@@ -183,6 +204,61 @@ To train your custom model:
 
 ### Comparison Model
 
+To train and test comparison model you can run the [comparator/main.ipynb](comparator/main.ipynb).
+The training dataset should be placed under [comparator/dataset/train](comparator/dataset/train), each sub-folder should
+contain different variants of the same signature. The testing data should be placed
+under [comparator/dataset/test](comparator/dataset/test):
+
+```
+dataset/
+├── train/
+│   ├── 1/
+│   │   ├── variant_1.jpg
+│   │   └── variant_2.jpg
+│   └── 2/
+│       ├── variant_1.jpg
+│       └── variant_2.jpg
+└── test/
+    ├── 3/
+    │   ├── variant_1.jpg
+    │   └── variant_2.jpg
+    └── 4/
+        ├── variant_1.jpg
+        └── variant_2.jpg
+```
+
+# Testing
+
+## Detection Model
+
+To test the training model run:
+
+```shell
+. venv\bin\activate
+export PYTHONPATH=$PYTHONPATH:./
+python yolov7/test.py --weights ./weights/best.pt --img-size 640 --data data/data.yaml
+```
+
+With the latest model we have obtained the following results (all images were not included in the training dataset):
+
+| Class      | Images | Labels | Precision | Recall | mAP@.5 | mAP@.5:.95 |
+|------------|--------|--------|-----------|--------|--------|-----------|
+| all        |  696   |  1393  |   0.969   | 0.926  | 0.966  |   0.676   |
+| signature  |  696   |  935   |   0.953   |  0.92  | 0.965  |   0.56    |
+| stamp      |  696   |  458   |   0.985   | 0.932  | 0.966  |   0.791   |
+
+Confusion matrix:
+
+<div style="display: flex; justify-content: center;">
+    <div style="flex: 50%; padding: 10px;">
+        <img src="images/Confusion_Matrix.png" alt="Confusion Matrix" style="max-width: 100%; height: auto;">
+    </div>
+</div>
+
+## Comparison Model
+
+Currently, see the **Training** section 
+
 # Contributing
 
 We welcome contributions to enhance the signature recognition architecture. If you would like to contribute, please
@@ -202,23 +278,18 @@ follow these steps:
 
 Signex is still under development and the following tasks have to be done:
 
-1. Training of the detection model. As for now, we are getting relatively good performance in separate-standing
-   and low-intersecting signature recognition, but sometimes model predicts broken bounding boxes, for example:
-
-<div style="display: flex; justify-content: center;">
-    <div style="flex: 50%; padding: 10px;">
-        <img src="images/Failure_Example_1.jpg" alt="Image 3" style="max-width: 100%; height: auto;">
-    </div>
-</div>
-
-2. Development of in-stamp signatures extraction model. Our model is also trained to detect stamps for their potential further
-   processing. We can try to find signatures inside stamps to improve signature detection accuracy, ac current accuracy may seem relative low:
+1. Development of in-stamp signatures extraction model. Our model is also trained to detect stamps for their potential
+   further
+   processing. We can try to find signatures inside stamps to improve signature detection accuracy, ac current accuracy
+   may seem relative low:
 
 <div style="display: flex; justify-content: center;">
     <div style="flex: 50%; padding: 10px;">
         <img src="images/In_Stamp_Example_1.jpg" alt="Image 4" style="max-width: 100%; height: auto;">
     </div>
 </div>
+
+2. Further comparison model training and API method implementation.
 
 # License
 
