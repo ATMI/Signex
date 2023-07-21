@@ -2,6 +2,8 @@ import os
 import random
 from collections import defaultdict
 
+import cv2
+from IPython.display import display
 from PIL import Image
 from torch.utils import data
 
@@ -9,14 +11,14 @@ from signex_utils.pair import Pair
 
 
 class TriDataset(data.Dataset):
-	def __init__(self, root_dir, transform=None, display=False):
+	def __init__(self, root_dir, transform=None, display_info=False):
 		self.signatures = self.load(root_dir)
 		if len(self.signatures) == 1:
 			raise Exception()
 
 		self.root_dir = root_dir
 		self.transform = transform
-		self.display = display
+		self.display_info = display_info
 
 	def __len__(self):
 		return len(self.signatures)
@@ -32,8 +34,8 @@ class TriDataset(data.Dataset):
 
 		def load_img(img_dir, img_name):
 			img = Image.open(os.path.join(self.root_dir, img_dir, img_name)).convert("L")
-			# if self.display:
-			#	display(img)
+			if self.display_info:
+				display(img)
 			return img
 
 		(anchor_entry, positive_entry) = random.sample(anchor_list, 2)

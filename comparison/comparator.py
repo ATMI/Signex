@@ -3,6 +3,7 @@ from concurrent.futures import ThreadPoolExecutor, Future
 from enum import Enum
 
 import cv2
+import numpy as np
 import torch
 from PIL import Image
 from torch import nn
@@ -24,9 +25,8 @@ class Comparator:
 
 		self.input_size = input_size
 		self.transform = transforms.Compose([
-			self.preprocess_image,
-			transforms.ToTensor(),  # Convert the image to a tensor
-			transforms.Normalize(mean=[0.485], std=[0.229])
+			lambda image: Comparator.preprocess_image(image, self.input_size),
+			Comparator.image_to_tensor()
 		])
 
 		self.model = nn.DataParallel(self.model)
@@ -84,9 +84,17 @@ class Comparator:
 			self.log(e)
 		return None
 
-	def preprocess_image(self, image):
-		image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-		image = cv2.resize(image, (self.input_size, self.input_size), interpolation=cv2.INTER_LINEAR)
+	@staticmethod
+	def preprocess_image(image, input_size):
+		image = np.array(image)
+		image = cv2.resize(image, (input_size, input_size), interpolation=cv2.INTER_LINEAR)
 		image = cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 31, 12)
 		image = Image.fromarray(image)
 		return image
+
+	@staticmethod
+	def image_to_tensor():
+		return transforms.Compose([
+			transforms.ToTensor(),  # Convert the image to a tensor
+			transforms.Normalize(mean=[0.485], std=[0.229])
+		])

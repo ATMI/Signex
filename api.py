@@ -8,11 +8,11 @@ import cv2
 import numpy as np
 from flup.server.fcgi import WSGIServer
 
-from comparator import tri_net
+from comparison import tri_net
 from api.response import Response
 from api.values import *
-from comparator.comparator import Comparator
-from detector.detector import Detector
+from comparison.comparator import Comparator
+from detection.detector import Detector
 from signex_utils.result import Result
 
 sys.modules["__main__"] = tri_net
