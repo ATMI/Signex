@@ -56,11 +56,7 @@ To run the signature recognition architecture, the following requirements should
    ```shell
    python -m venv venv
    ```
-5. Update `PYTHONPATH` variable:
-   ```shell
-   export PYTHONPATH=$PYTHONPATH:yolov7
-   ```
-6. Activate venv:
+5. Activate venv:
 
    **Linux:**
    ```shell
@@ -70,7 +66,7 @@ To run the signature recognition architecture, the following requirements should
    ```
    venv\Scripts\activate
    ```
-7. Install the requirements:
+6. Install the requirements:
    ```shell
    pip install -r requirements.txt
    ```
@@ -83,7 +79,6 @@ To run the signature recognition architecture, the following requirements should
 git clone --depth 1 --recurse-submodules https://github.com/ATMI/Signex.git
 cd Signex
 python -m venv venv
-export PYTHONPATH=$PYTHONPATH:yolov7
 . venv/bin/activate
 pip install -r requirements.txt
 ```
@@ -94,7 +89,6 @@ pip install -r requirements.txt
 git clone --depth 1 --recurse-submodules https://github.com/ATMI/Signex.git
 cd Signex
 python -m venv venv
-export PYTHONPATH=$PYTHONPATH:yolov7
 venv\Scripts\activate
 pip install -r requirements.txt
 ```
