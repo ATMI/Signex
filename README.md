@@ -100,7 +100,7 @@ pip install -r requirements.txt
 To run trained Neural Network execute the following command:
 
 ```shell
-cd detector
+cd detection
 python ../yolov7/detect.py --weights weights/best.pt --conf 0.5 --img-size 640 --source images_dir
 ```
 
@@ -115,7 +115,7 @@ python ../yolov7/detect.py --weights weights/best.pt --conf 0.5 --img-size 640 -
 
 ### Comparison Model
 
-As for now comparison model is only available in the [comparator/main.ipynb](comparison/main.ipynb).
+As for now comparison model is only available in the [comparison/main.ipynb](comparison/main.ipynb).
 You can test existing model running the following cell:
 
 ```python
@@ -202,16 +202,16 @@ To train your custom model:
 
 11. Start training
     ```shell
-    cd detector
+    cd detection
     python ../yolov7/train.py --workers 8 --device 0 --batch-size 64 --data data/data.yaml --img 640 640 --cfg cfg/net.yaml --weights weights/best.pt --name net --hyp hyp/hyp.net.yaml
     ```
 
 ### Comparison Model
 
-To train and test comparison model you can run the [comparator/main.ipynb](comparison/main.ipynb).
-The training dataset should be placed under [comparator/dataset/train](comparison/dataset/train), each sub-folder should
+To train and test comparison model you can run the [comparison/main.ipynb](comparison/main.ipynb).
+The training dataset should be placed under [comparison/dataset/train](comparison/dataset/train), each sub-folder should
 contain different variants of the same signature. The testing data should be placed
-under [comparator/dataset/test](comparison/dataset/test):
+under [comparison/dataset/test](comparison/dataset/test):
 
 ```
 dataset/
@@ -238,7 +238,7 @@ dataset/
 To test the training model run:
 
 ```shell
-cd detector
+cd detection
 python ../yolov7/test.py --weights weights/best.pt --img-size 640 --data data/data.yaml
 ```
 
@@ -269,7 +269,7 @@ To start an API, you need to run:
 python api.py
 ```
 
-By default, it listens to `8080` port and loads [detector/weights/best.pt](detection/weights/best.pt) weights for the detector. 
+By default, it listens to `8080` port and loads [detection/weights/best.pt](detection/weights/best.pt) weights for the detector. 
 
 # Contributing
 
