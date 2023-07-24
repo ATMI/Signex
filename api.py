@@ -1,6 +1,9 @@
+import sys
+
+sys.path.append("yolov7")
+
 import cgi
 import json
-import sys
 from http import HTTPStatus
 from typing import Dict, Tuple, Callable
 
@@ -121,12 +124,12 @@ class Api:
 			default if val is None else float(val)
 		)
 
-	def get_image(self, field_storage: cgi.FieldStorage, field_name):
+	def get_image(self, field_storage: cgi.FieldStorage, field_name, flags=cv2.IMREAD_COLOR):
 		return self.get_field_value(
 			field_storage,
 			field_name,
 			lambda img:
-			cv2.imdecode(np.frombuffer(img, dtype=np.uint8), cv2.IMREAD_COLOR)
+			cv2.imdecode(np.frombuffer(img, dtype=np.uint8), flags)
 		)
 
 	def __detect__(self, environ) -> Result:
@@ -155,34 +158,32 @@ class Api:
 		return Result.failure(Response.internal_server_error(BASE_DETECT_FAILURE))
 
 	def compare(self, environ) -> Response:
-		"""
 		try:
 			(field_storage, error) = self.get_field_storage(environ)
 			if error:
 				return error
 
-			(img_a, error) = self.get_image(field_storage, "image_a")
+			(img_a, error) = self.get_image(field_storage, "image_a", cv2.IMREAD_GRAYSCALE)
 			if error:
 				return error
 
-			(img_b, error) = self.get_image(field_storage, "image_b")
+			(img_b, error) = self.get_image(field_storage, "image_b", cv2.IMREAD_GRAYSCALE)
 			if error:
 				return error
 
 			result = self.comparator.compare(img_a, img_b)
 			if result is not None:
-				return Response.ok(f"{{ \"similarity\": {result} }}", [CONTENT_JSON])
+				return Response.ok(f"{{ \"dissimilarity\": {result} }}", [CONTENT_JSON])
 		except Exception as e:
 			self.log(e)
 		return Response.internal_server_error(COMPARE_FAILURE)
-		"""
-		return Response.not_implemented()
 
 	def run(self):
 		self.server.run()
 
 
 if __name__ == "__main__":
-	detector = Detector("detector/weights/best.pt", 1, print)
-	api = Api(("localhost", 8080), detector, None, print)
+	comparator = Comparator("comparison/weights/best.pt", 224, 1, print)
+	detector = Detector("detection/weights/best.pt", 1, print)
+	api = Api(("localhost", 8080), detector, comparator, print)
 	api.run()

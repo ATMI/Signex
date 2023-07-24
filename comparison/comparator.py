@@ -29,6 +29,7 @@ class Comparator:
 			Comparator.image_to_tensor()
 		])
 
+		self.model.eval()
 		self.model = nn.DataParallel(self.model)
 		self.executor = ThreadPoolExecutor(max_workers=max_workers)
 
@@ -59,11 +60,12 @@ class Comparator:
 		try:
 			image_a = image_a.to(self.device).unsqueeze(0)
 			image_b = image_b.to(self.device).unsqueeze(0)
-			output_a, _, output_b = self.model(image_a, image_a, image_b)
 
-			similarity = (1 - nn.functional.cosine_similarity(output_a, output_b)) / 2
-			similarity = similarity.item()
+			with torch.no_grad():
+				output_a = self.model(image_a)
+				output_b = self.model(image_b)
 
+			similarity = min(1, (1 - nn.functional.cosine_similarity(output_a, output_b)).item())
 			future.set_result((True, similarity))
 		except Exception as e:
 			self.log(e)
@@ -86,7 +88,6 @@ class Comparator:
 
 	@staticmethod
 	def preprocess_image(image, input_size):
-		image = np.array(image)
 		image = cv2.resize(image, (input_size, input_size), interpolation=cv2.INTER_LINEAR)
 		image = cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 31, 12)
 		image = Image.fromarray(image)
